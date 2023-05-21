@@ -1,11 +1,14 @@
 #include <iostream>
-#include <iostream>
+
 #include <windows.h>
+
 using namespace std;
 
 const int FUEL_CAPACITY = 300;
 const int FUEL_CONSUMPTION_500KG = 1;
 const int FUEL_CONSUMPTION_1000KG = 4;
+const int FUEL_CONSUMPTION_1500KG = 7;
+const int FUEL_CONSUMPTION_2000KG = 9;
 
 int main() {
 
@@ -15,24 +18,40 @@ int main() {
     int cargoWeight;
     int distanceAB, distanceBC;
 
-    std::cout << "Введіть вагу вантажу (у кілограмах): ";
-    std::cin >> cargoWeight;
+    cout << "Введіть вагу вантажу (у кілограмах): ";
+    cin >> cargoWeight;
 
-    std::cout << "Введіть відстань від пункту А до пункту В (у кілометрах): ";
-    std::cin >> distanceAB;
+    cout << "Введіть відстань від пункту А до пункту В (у кілометрах): ";
+    cin >> distanceAB;
 
-    std::cout << "Введіть відстань від пункту В до пункту С (у кілометрах): ";
-    std::cin >> distanceBC;
+    cout << "Введіть відстань від пункту В до пункту С (у кілометрах): ";
+    cin >> distanceBC;
 
-    int fuelConsumption = (cargoWeight <= 500) ? FUEL_CONSUMPTION_500KG : FUEL_CONSUMPTION_1000KG;
-
-    int totalFuelConsumption = (distanceAB + distanceBC) * fuelConsumption;
-
-    if (totalFuelConsumption <= FUEL_CAPACITY) {
-        std::cout << "Літак зможе пролетіти з пункту А в пункт С через пункт В з вантажем " << cargoWeight << " кг" << std::endl;
+    int fuelConsumption;
+    if (cargoWeight <= 500) {
+        fuelConsumption = FUEL_CONSUMPTION_500KG;
+    }
+    else if (cargoWeight <= 1000) {
+        fuelConsumption = FUEL_CONSUMPTION_1000KG;
+    }
+    else if (cargoWeight <= 1500) {
+        fuelConsumption = FUEL_CONSUMPTION_1500KG;
+    }
+    else if (cargoWeight <= 2000) {
+        fuelConsumption = FUEL_CONSUMPTION_2000KG;
     }
     else {
-        std::cout << "Літак не зможе пролетіти з пункту А в пункт С через пункт В з вантажем " << cargoWeight << " кг" << std::endl;
+        cout << "Літак не може підняти вантаж більше ніж 2000 кг." << endl;
+        return 0;
+    }
+
+    int requiredFuel = (distanceAB + distanceBC) * fuelConsumption - FUEL_CAPACITY;
+
+    if (requiredFuel > 0) {
+        cout << "Необхідно дозаправити літак в пункті В: " << requiredFuel << " літрів палива." << endl;
+    }
+    else {
+        cout << "Літак зможе пролетіти з пункту А в пункт С через пункт В без дозаправки." << endl;
     }
 
     return 0;
